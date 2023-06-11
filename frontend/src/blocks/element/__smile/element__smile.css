@@ -1,0 +1,18 @@
+.element__smile {
+    margin: 0;
+    padding: 0;
+    background-image: url(../../../image/Group-heart.svg);
+    min-width: 22px;
+    height: 19px;
+    border: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-color: transparent;
+    cursor: pointer;
+    transition: visibility 0.1s, opacity 0.3s linear;
+}
+
+.element__smile:hover {
+    opacity: .5;
+}
