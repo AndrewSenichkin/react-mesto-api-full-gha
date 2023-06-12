@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes/router');
 require('dotenv').config();
@@ -30,6 +31,7 @@ mongoose
   });
 
 const app = express();
+app.use(cors());
 // подключаем rate-limiter
 app.use(limiter);
 app.use(helmet());
