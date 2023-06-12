@@ -20,7 +20,7 @@ module.exports.login = (req, res, next) => {
           NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
           { expiresIn: '3d' },
         );
-        return res.send({ _id: token });
+        return res.send({ token });
       }
       throw new Unauthorized('Неправильные почта или пароль');
     })
@@ -41,7 +41,7 @@ module.exports.getUserId = (req, res, next) => {
     .findById(id)
     .then((user) => {
       if (user) {
-        return res.send({ user });
+        return res.send(user);
       }
       throw new NotFoundError('id не найден');
     })
@@ -90,7 +90,7 @@ module.exports.editProfileUserInfo = (req, res, next) => {
   }, { new: true, runValidators: true })
     .then((user) => {
       if (user) {
-        return res.send({ user });
+        return res.send(user);
       }
       throw new NotFoundError('id не найден');
     })
@@ -129,7 +129,7 @@ module.exports.getUserInfo = (req, res, next) => {
     .findById(userId)
     .then((user) => {
       if (user) {
-        return res.send({ user });
+        return res.send(user);
       }
       throw new NotFoundError('Пользователь с таким id не найден');
     })

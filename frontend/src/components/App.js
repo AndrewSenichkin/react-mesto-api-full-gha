@@ -190,7 +190,7 @@ function App() {
             .finally(() => setIsSuccess(true));
     }
 
-    React.useEffect(() => {
+    /*React.useEffect(() => {
         if(isLoggedIn) {
             api.getAboutUserInfo()
                 .then((userData) => setCurrentUser(userData))
@@ -209,7 +209,16 @@ function App() {
             })
                 .catch((err) => console.log(`Ошибка: ${err}`));
         }
-    }, [isLoggedIn])
+    }, [isLoggedIn])*/
+    useEffect(() => {
+        isLoggedIn &&
+          Promise.all([api.getAboutUserInfo(), api.getInitialCards()])
+            .then(([profileInfo, cards]) => {
+              setCurrentUser(profileInfo)
+              setCards(cards.data.reverse())
+            })
+            .catch((error) => console.log(`Ошибка: ${error}`))
+      }, [isLoggedIn])
 
     React.useEffect(() => {
         tokenCheck();
@@ -223,7 +232,7 @@ function App() {
                 .then((res) => {
                     if(res) {
                         setIsLoggedIn(true);
-                        setEmail(res.data.email);
+                        setEmail(res.email);
                         history.push("/");
                     }
                 })
