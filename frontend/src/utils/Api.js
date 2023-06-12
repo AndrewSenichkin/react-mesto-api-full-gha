@@ -81,7 +81,8 @@ class Api {
 const api = new Api({
   baseUrl: 'https://api.kniws.nomoredomains.rocks',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    authorization: `Bearer ${localStorage.getItem("jwt")}`,
   }
 });
 
