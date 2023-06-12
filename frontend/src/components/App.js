@@ -210,7 +210,7 @@ function App() {
                 .catch((err) => console.log(`Ошибка: ${err}`));
         }
     }, [isLoggedIn])*/
-    useEffect(() => {
+    React.useEffect(() => {
         isLoggedIn &&
           Promise.all([api.getAboutUserInfo(), api.getInitialCards()])
             .then(([profileInfo, cards]) => {
