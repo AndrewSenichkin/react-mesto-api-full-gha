@@ -1,4 +1,4 @@
-const allowedCors = ['https://kniws.nomoredomains.rocks', 'http://api.kniws.nomoredomains.rocks', 'https://localhost:3000', 'http://localhost:3000'];
+const allowedCors = ['https://kniws.nomoredomains.rocks', 'http://kniws.nomoredomains.rocks', 'https://localhost:3000', 'http://localhost:3000'];
 
 module.exports = (req, res, next) => {
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin

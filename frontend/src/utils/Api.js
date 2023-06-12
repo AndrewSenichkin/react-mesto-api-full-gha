@@ -79,9 +79,8 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
+  baseUrl: 'https://api.kniws.nomoredomains.rocks',
   headers: {
-    authorization: '3bdb898d-578c-4d59-b2f0-6cedbf150f8e',
     'Content-Type': 'application/json'
   }
 });
