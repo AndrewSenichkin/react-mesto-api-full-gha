@@ -5,11 +5,11 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/AndrewSenichkin/react-mesto-api-full-gha
+Адрес репозитория: https://github.com/AndrewSenichkin/react-mesto-api-full-gha/
 
 ## Ссылки на проект
 
-IP-адрес 51.250.71.89
+IP 51.250.71.89
 
 Frontend https://kniws.nomoredomains.rocks
 
