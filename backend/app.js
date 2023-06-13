@@ -31,6 +31,7 @@ mongoose
   });
 
 const app = express();
+app.use(cors());
 // подключаем rate-limiter
 app.use(limiter);
 app.use(helmet());
@@ -40,7 +41,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(requestLogger);
-app.use(cors());
 app.use('/', signup);
 app.use('/', signin);
 app.use(routes);
