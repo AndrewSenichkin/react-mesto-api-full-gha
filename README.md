@@ -5,14 +5,14 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/...
+Адрес репозитория: https://github.com/AndrewSenichkin/react-mesto-api-full-gha
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 51.250.71.89
 
-Frontend https://...
+Frontend https://kniws.nomoredomains.rocks
 
-Backend https://...
+Backend https://api.kniws.nomoredomains.rocks
 
-Проверка коммита на гитхаб
+Сертификат https://www.ssllabs.com/ssltest/analyze.html?d=kniws.nomoredomains.rocks
