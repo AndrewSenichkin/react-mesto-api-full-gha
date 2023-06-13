@@ -20,6 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://kniws.nomoredomains.rocks",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -40,6 +41,5 @@
   },
   "devDependencies": {
     "gh-pages": "^5.0.0"
-  },
-  "homepage": "https://kniws.nomoredomains.rocks"
+  }
 }
