@@ -111,7 +111,7 @@ function App() {
 
     function handleCardLike(card) {
         // Проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(user => user === currentUser._id);
+        const isLiked = card.likes.some(id => id === currentUser._id);
         (isLiked ? api.deleteLike(card._id) : api.addLike(card._id, true))
       .then((newCard) => {
         setCards((state) =>
@@ -193,32 +193,6 @@ function App() {
             .catch((error) => console.log(`Ошибка: ${error}`))
       }, [isLoggedIn]);
 
-      // исчрпывающий
-    /*React.useEffect(() => {
-        tokenCheck();
-      });
-    function tokenCheck() {
-        if(localStorage.getItem("jwt")) {
-            const jwt = localStorage.getItem("jwt");
-            if(jwt) {
-                auth
-                .checkToken(jwt)
-                .then((res) => {
-                    if(res) {
-                        setIsLoggedIn(true);
-                        setEmail(res.email);
-                        history.push("/");
-                    }
-                })
-                .catch((err) => {
-                    if(err.status === 401) {
-                        console.log("401 — Токен не передан или передан не в том формате")
-                    }
-                    console.log("401 — Переданный токен некорректен")
-                })
-            }
-        }
-    }*/
     React.useEffect(() => {
         const jwt = localStorage.getItem("jwt")
         if (jwt) {
