@@ -102,7 +102,7 @@ function App() {
         api
             .addNewCard(data)
             .then((newCard) => {
-                setCards([newCard.data, ...cards]);
+                setCards([newCard, ...cards]);
                 closeAllPopups();
             })
             .catch((err) => console.log(`Ошибка: ${err}`))
@@ -111,11 +111,11 @@ function App() {
 
     function handleCardLike(card) {
         // Проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(id => id === currentUser._id);
+        const isLiked = card.likes.some((i) => i._id === currentUser._id);
         (isLiked ? api.deleteLike(card._id) : api.addLike(card._id, true))
       .then((newCard) => {
         setCards((state) =>
-          state.map((c) => (c._id === newCard.data._id ? newCard.data : c))
+          state.map((c) => (c._id === newCard._id ? newCard : c))
         )
       })
       .catch((err) => console.log(err))
@@ -188,7 +188,7 @@ function App() {
           Promise.all([api.getAboutUserInfo(), api.getInitialCards()])
             .then(([profileInfo, cards]) => {
               setCurrentUser(profileInfo)
-              setCards(cards.data.reverse())
+              setCards(cards.reverse())
             })
             .catch((error) => console.log(`Ошибка: ${error}`))
       }, [isLoggedIn]);

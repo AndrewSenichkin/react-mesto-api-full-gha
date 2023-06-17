@@ -30,6 +30,7 @@ module.exports.removeCard = (req, res, next) => {
   const { id: cardId } = req.params;
   const { userId } = req.user;
   Card.findById({ _id: cardId })
+    .populate(['likes', 'owner'])
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Данные по указанному id не найдены');
@@ -58,6 +59,7 @@ module.exports.addLike = (req, res, next) => {
     { $addToSet: { likes: userId } },
     { new: true },
   )
+    .populate(['likes', 'owner'])
     .then((card) => {
       if (card) {
         return res.status(200).send(card);
@@ -81,12 +83,14 @@ module.exports.removeLike = (req, res, next) => {
     cardId,
     { $pull: { likes: userId } },
     { new: true },
-  ).then((card) => {
-    if (card) {
-      return res.status(200).send(card);
-    }
-    throw new NotFoundError('Карточка с id не найдена');
-  })
+  )
+    .populate(['likes', 'owner'])
+    .then((card) => {
+      if (card) {
+        return res.status(200).send(card);
+      }
+      throw new NotFoundError('Карточка с id не найдена');
+    })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new IncorrectDate('Переданы некорректные данные при снятии лайка'));
