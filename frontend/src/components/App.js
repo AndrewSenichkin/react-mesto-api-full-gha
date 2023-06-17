@@ -102,7 +102,7 @@ function App() {
         api
             .addNewCard(data)
             .then((newCard) => {
-                setCards([newCard, ...cards]);
+                setCards([newCard.data, ...cards]);
                 closeAllPopups();
             })
             .catch((err) => console.log(`Ошибка: ${err}`))
@@ -183,26 +183,6 @@ function App() {
             .finally(() => setIsSuccess(true));
     }
 
-    /*React.useEffect(() => {
-        if(isLoggedIn) {
-            api.getAboutUserInfo()
-                .then((userData) => setCurrentUser(userData))
-                .catch((err) => console.log(`Ошибка: ${err}`))
-    
-            api.getInitialCards().then((cardData) => {
-                setCards(
-                    cardData.map((card) => ({
-                        _id: card._id,
-                        likes: card.likes,
-                        name: card.name,
-                        link: card.link,
-                        owner: card.owner,
-                    }))
-                )
-            })
-                .catch((err) => console.log(`Ошибка: ${err}`));
-        }
-    }, [isLoggedIn])*/
     React.useEffect(() => {
         isLoggedIn &&
           Promise.all([api.getAboutUserInfo(), api.getInitialCards()])
@@ -212,10 +192,10 @@ function App() {
             })
             .catch((error) => console.log(`Ошибка: ${error}`))
       }, [isLoggedIn])
-
+      // исчрпывающий
     React.useEffect(() => {
         tokenCheck();
-      }, []);
+      });
     function tokenCheck() {
         if(localStorage.getItem("jwt")) {
             const jwt = localStorage.getItem("jwt");
