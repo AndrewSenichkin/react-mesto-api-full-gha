@@ -6,7 +6,7 @@ const Forbidden = require('../errors/Forbidden');
 module.exports.getInitialCards = (req, res, next) => {
   Card.find({})
     .populate(['likes', 'owner'])
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch(next);
 };
 
@@ -15,7 +15,7 @@ module.exports.addNewCard = (req, res, next) => {
   const { name, link } = req.body;
   const { userId } = req.user;
   Card.create({ name, link, owner: userId })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new IncorrectDate('Переданы некорректные данные'));
@@ -30,7 +30,6 @@ module.exports.removeCard = (req, res, next) => {
   const { id: cardId } = req.params;
   const { userId } = req.user;
   Card.findById({ _id: cardId })
-    .populate(['likes', 'owner'])
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Данные по указанному id не найдены');
@@ -45,7 +44,7 @@ module.exports.removeCard = (req, res, next) => {
       if (!cardDeleted) {
         throw new NotFoundError('Карточка уже была удалена');
       }
-      res.send({ data: cardDeleted });
+      res.send(cardDeleted);
     })
     .catch(next);
 };
@@ -59,10 +58,9 @@ module.exports.addLike = (req, res, next) => {
     { $addToSet: { likes: userId } },
     { new: true },
   )
-    .populate(['likes', 'owner'])
     .then((card) => {
       if (card) {
-        return res.status(200).send({ data: card });
+        return res.status(200).send(card);
       }
       throw new NotFoundError('Карточка с id не найдена');
     })
@@ -85,7 +83,7 @@ module.exports.removeLike = (req, res, next) => {
     { new: true },
   ).then((card) => {
     if (card) {
-      return res.status(200).send({ data: card });
+      return res.status(200).send(card);
     }
     throw new NotFoundError('Карточка с id не найдена');
   })
