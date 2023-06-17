@@ -111,21 +111,14 @@ function App() {
 
     function handleCardLike(card) {
         // Проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(user => user._id === currentUser._id);
-        if (!isLiked) {
-            api.addLike(card._id)
-                .then((newCard) => {
-                    setCards(state => state.map((item) => item._id === card._id ? newCard : item))
-                })
-                .catch(err => console.log(`Ошибка ${err}`));
-        }
-        else {
-            api.deleteLike(card._id)
-                .then((newCard) => {
-                    setCards(state => state.map((item) => item._id === card._id ? newCard : item))
-                })
-                .catch(err => console.log(`Ошибка ${err}`));
-        }
+        const isLiked = card.likes.some(user => user === currentUser._id);
+        (isLiked ? api.deleteLike(card._id) : api.addLike(card._id, true))
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === newCard.data._id ? newCard.data : c))
+        )
+      })
+      .catch((err) => console.log(err))
     }
 
     function handleCardDelete(card) {
