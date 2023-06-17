@@ -191,9 +191,10 @@ function App() {
               setCards(cards.data.reverse())
             })
             .catch((error) => console.log(`Ошибка: ${error}`))
-      }, [isLoggedIn])
+      }, [isLoggedIn]);
+
       // исчрпывающий
-    React.useEffect(() => {
+    /*React.useEffect(() => {
         tokenCheck();
       });
     function tokenCheck() {
@@ -217,7 +218,25 @@ function App() {
                 })
             }
         }
-    }
+    }*/
+    React.useEffect(() => {
+        const jwt = localStorage.getItem("jwt")
+        if (jwt) {
+          auth
+            .checkToken(jwt)
+            .then((res) => {
+              setIsLoggedIn(true)
+              setEmail(res.email)
+              history.push("/")
+            })
+            .catch((err) => {
+              if (err.status === 401) {
+                console.log("401 — Токен не передан или передан не в том формате")
+              }
+              console.log("401 — Переданный токен некорректен")
+            })
+        }
+      }, [history])
 
     return (
         <CurrentUserContext.Provider value={currentUser} >

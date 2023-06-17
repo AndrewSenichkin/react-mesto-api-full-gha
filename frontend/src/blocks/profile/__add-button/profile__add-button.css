@@ -17,6 +17,7 @@
     .profile__add-button {
         background-image: url(../../../image/AddButtonRectangle.svg);
         width: 200px;
+        margin-top: 30px;
     }
 }
 
