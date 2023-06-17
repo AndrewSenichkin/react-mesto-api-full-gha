@@ -6,7 +6,7 @@ const Forbidden = require('../errors/Forbidden');
 module.exports.getInitialCards = (req, res, next) => {
   Card.find({})
     .populate(['likes', 'owner'])
-    .then((card) => res.send(card))
+    .then((card) => res.send({ data: card }))
     .catch(next);
 };
 
@@ -15,7 +15,7 @@ module.exports.addNewCard = (req, res, next) => {
   const { name, link } = req.body;
   const { userId } = req.user;
   Card.create({ name, link, owner: userId })
-    .then((card) => res.status(201).send(card))
+    .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new IncorrectDate('Переданы некорректные данные'));
@@ -45,7 +45,7 @@ module.exports.removeCard = (req, res, next) => {
       if (!cardDeleted) {
         throw new NotFoundError('Карточка уже была удалена');
       }
-      res.send(cardDeleted);
+      res.send({ data: cardDeleted });
     })
     .catch(next);
 };
@@ -62,7 +62,7 @@ module.exports.addLike = (req, res, next) => {
     .populate(['likes', 'owner'])
     .then((card) => {
       if (card) {
-        return res.status(200).send(card);
+        return res.status(200).send({ data: card });
       }
       throw new NotFoundError('Карточка с id не найдена');
     })
@@ -87,7 +87,7 @@ module.exports.removeLike = (req, res, next) => {
     .populate(['likes', 'owner'])
     .then((card) => {
       if (card) {
-        return res.status(200).send(card);
+        return res.status(200).send({ data: card });
       }
       throw new NotFoundError('Карточка с id не найдена');
     })
