@@ -4,7 +4,7 @@ import { CurrentUserContext } from '../context/CurrentUserContext';
 function Card(props) {
     const currentUser = React.useContext(CurrentUserContext);
     // Определяем, являемся ли мы владельцем текущей карточки
-    const isOwner = (props.card.owner._id || props.card.owner) === currentUser._id
+    const isOwner = (props.card.owner?._id || props.card.owner) === currentUser._id
     //const deleteButtonClassName = `element__trash ${isOwner ? "element__trash_active" : ""}`
     // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
     const isLiked = props.card.likes.some(i => i === currentUser._id);
