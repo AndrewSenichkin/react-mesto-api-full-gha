@@ -98,7 +98,7 @@ function App() {
 
     // Сохранение данных при создании карточки
     function handleAddPlaceSubmit(data) {
-        setIsLoading(true);
+        setIsLoading(true)
         api
             .addNewCard(data)
             .then((newCard) => {
@@ -111,7 +111,7 @@ function App() {
 
     function handleCardLike(card) {
         // Проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some((i) => i._id === currentUser._id);
+        const isLiked = card.likes.some((i) => i === currentUser._id);
         (isLiked ? api.deleteLike(card._id) : api.addLike(card._id, true))
       .then((newCard) => {
         setCards((state) =>
@@ -122,7 +122,7 @@ function App() {
     }
 
     function handleCardDelete(card) {
-        setIsLoading(true)
+        setIsLoading(true);
         api
             .deleteCard(card._id)
             .then(() => {
@@ -139,7 +139,7 @@ function App() {
             .login(email, password)
             .then((res) => {
                 if(res.token) {
-                    setEmail(email);
+                    setEmail(res.email);
                     setIsLoggedIn(true);
                     localStorage.setItem("jwt", res.token);
                     history.push("/");
@@ -193,24 +193,27 @@ function App() {
             .catch((error) => console.log(`Ошибка: ${error}`))
       }, [isLoggedIn]);
 
-    React.useEffect(() => {
-        const jwt = localStorage.getItem("jwt")
-        if (jwt) {
-          auth
-            .checkToken(jwt)
-            .then((res) => {
-              setIsLoggedIn(true)
-              setEmail(res.email)
-              history.push("/")
-            })
-            .catch((err) => {
-              if (err.status === 401) {
-                console.log("401 — Токен не передан или передан не в том формате")
-              }
-              console.log("401 — Переданный токен некорректен")
-            })
-        }
-      }, [history])
+      React.useEffect(() => {
+        tokenCheck();
+      });
+    function tokenCheck() {
+            const jwt = localStorage.getItem("jwt");
+            if(jwt) {
+                auth
+                .checkToken(jwt)
+                .then((res) => {
+                        setIsLoggedIn(true);
+                        setEmail(res.email);
+                        history.push("/");
+                })
+                .catch((err) => {
+                    if(err.status === 401) {
+                        console.log("401 — Токен не передан или передан не в том формате")
+                    }
+                    console.log("401 — Переданный токен некорректен")
+                })
+            }
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -263,9 +266,9 @@ function App() {
                         onCloseOverlay={closeByOverlay}
                     />
                     <AddPlacePopup
+                        onAddPlace={handleAddPlaceSubmit}
                         isOpen={isAddPlacePopupOpen}
                         onClose={closeAllPopups}
-                        onAddPlace={handleAddPlaceSubmit}
                         onLoading={isLoading}
                         onCloseOverlay={closeByOverlay}
                     />

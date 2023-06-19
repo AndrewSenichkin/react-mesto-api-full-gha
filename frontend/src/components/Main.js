@@ -5,9 +5,7 @@ import {CurrentUserContext} from '../context/CurrentUserContext';
 import Loader from  './Loader';
 
 function Main(props) {
-
     const currentUser = React.useContext(CurrentUserContext);
-
     return (  
         <main className="content">
             {props.isLoading && <Loader />}
@@ -36,7 +34,7 @@ function Main(props) {
                         card={card}
                         onCardClick={props.onCardClick}
                         onCardLike={props.onCardLike}
-                        onCardDelete={props.onCardDelete}
+                        onCardDelete={props.onDeletedCard}
                         onConfirmationPopup={props.onConfirmationPopup}
                     />
                 ))}

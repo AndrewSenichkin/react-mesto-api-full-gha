@@ -11,7 +11,7 @@ function EditAvatarPopup({ isOpen, onClose, onLoading, onUpdateAvatar, onCloseOv
     function handleSubmit(e) {
         e.preventDefault();
         onUpdateAvatar({
-            avatar: refAvatar.current.value
+            avatar: refAvatar.current.value,
         })
     }
     function handleChangeAvatar() {

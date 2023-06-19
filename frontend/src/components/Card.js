@@ -6,9 +6,10 @@ function Card(props) {
     // Определяем, являемся ли мы владельцем текущей карточки
     const isOwner = (props.card.owner._id || props.card.owner) === currentUser._id
     // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-    const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+    const isLiked = props.card.likes.some((i) => i === currentUser._id);
     // Создаём переменную, которую после зададим в `className` для кнопки лайка
     const cardLikeButtonClassName = `element__smile ${isLiked ? 'element__smile_active' : ""}`;
+    const deletButtonClassName = `${isOwner ? 'element__trash element__trash_active' : 'element__trash'}`;
 
     function handleClick() {
         props.onCardClick(props.card);
@@ -23,14 +24,12 @@ function Card(props) {
 
     return (
         <article className="element">
-            {isOwner && (
                 <button
-                    className="element__trash"
+                    className={deletButtonClassName}
                     aria-label="Удалить"
                     onClick={handleDeleteClick}
                     type="button"
                 />
-            )}
             <img className="element__image" src={props.card.link} alt={props.card.name} onClick={handleClick} />
             <div className="element__container">
                 <h2 className="element__title">{props.card.name}</h2>

@@ -5,8 +5,8 @@ const Forbidden = require('../errors/Forbidden');
 // Все карточки:
 module.exports.getInitialCards = (req, res, next) => {
   Card.find({})
-    .populate(['likes', 'owner'])
-    .then((card) => res.send({ data: card }))
+    .populate(['owner', 'likes'])
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -29,8 +29,8 @@ module.exports.addNewCard = (req, res, next) => {
 module.exports.removeCard = (req, res, next) => {
   const { id: cardId } = req.params;
   const { userId } = req.user;
+
   Card.findById({ _id: cardId })
-    .populate(['likes', 'owner'])
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Данные по указанному id не найдены');

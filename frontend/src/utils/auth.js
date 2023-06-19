@@ -1,4 +1,5 @@
 const BASE_URL = "https://api.kniws.nomoredomains.rocks";
+
 function checkResponse(res) {
     if (res.ok) {
         return res.json();
@@ -10,7 +11,6 @@ export const register = (email, password) => {
     return fetch(`${BASE_URL}/signup`, {
         method: "POST",
         headers: {
-            Accept: "application/json",
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
