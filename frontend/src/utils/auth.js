@@ -27,8 +27,8 @@ export const login = (email, password) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: email,
-            password: password,
+            email,
+            password
         }),
     })
         .then(checkResponse)

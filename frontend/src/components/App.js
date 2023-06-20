@@ -139,15 +139,15 @@ function App() {
             .login(email, password)
             .then((res) => {
                 if(res.token) {
-                    localStorage.setItem("jwt", res.token);
-                    setIsLoggedIn(true);
                     setEmail(email);
+                    setIsLoggedIn(true);
+                    localStorage.setItem("jwt", res.token);
                     history.push("/");
                 }
             })
             .catch((err) => {
-                setInfoToolTipPopupOpen(false);
-                setIsSuccess(true);
+                setIsSuccess(false);
+                setInfoToolTipPopupOpen(true);
                  console.log(err);
             })
     }
@@ -169,15 +169,15 @@ function App() {
         auth
             .register(email, password)
             .then((res) => {
+                    setIsSuccess(true)
                     setInfoToolTipPopupOpen(true);
                     history.push("/sign-in");
             })
             .catch((err) => {
                 console.log(err);
-                setInfoToolTipPopupOpen(false);
                 setIsSuccess(false);
+                setInfoToolTipPopupOpen(true);
             })
-            .finally(() => setIsSuccess(true));
     }
 
     React.useEffect(() => {

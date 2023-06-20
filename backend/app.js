@@ -37,8 +37,7 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-// подключаем rate-limiter
-app.use(limiter);
+
 app.use(helmet());
 app.use(express.json());
 app.use(bodyParser.json());
@@ -46,6 +45,8 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(requestLogger);
+// подключаем rate-limiter
+app.use(limiter);
 app.use('/', signup);
 app.use('/', signin);
 app.use(routes);

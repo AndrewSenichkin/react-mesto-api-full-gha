@@ -15,20 +15,30 @@ class Api {
   }
 
   // Метод загрузки информации о пользователе с сервера
-  async getAboutUserInfo(forms) {
-    const response = await fetch(`${this._baseUrl}/users/me`, {
-      headers:this._headers,
+  getAboutUserInfo(forms) {
+    const token = localStorage.getItem("jwt");
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "authorization": `Bearer ${token}`,
+    },
       body: JSON.stringify(forms)
     })
-    return this._handleSendingRequest(response)
+    .then(res => this._handleSendingRequest(res)) 
   }
 
   // Метод загрузки карточек с сервера
-  async getInitialCards() {
-    const response = await fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
+    getInitialCards() {
+    const token = localStorage.getItem("jwt");
+    return fetch(`${this._baseUrl}/cards`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "authorization": `Bearer ${token}`,
+    },
     })
-    return this._handleSendingRequest(response)
+    .then(res => this._handleSendingRequest(res)) 
   }
 
   // Метод редактирование профиля
