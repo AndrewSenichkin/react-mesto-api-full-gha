@@ -102,7 +102,7 @@ function App() {
         api
             .addNewCard(data)
             .then((newCard) => {
-                setCards([newCard, ...cards]);
+                setCards([newCard.data, ...cards]);
                 closeAllPopups();
             })
             .catch((err) => console.log(`Ошибка: ${err}`))
@@ -111,37 +111,37 @@ function App() {
 
     function handleCardLike(card) {
         // Проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some((i) => i === currentUser._id);
-        (isLiked ? api.deleteLike(card._id) : api.addLike(card._id, true))
-      .then((newCard) => {
+        const isLiked = card.likes.some((id) => id === currentUser._id);
+     (isLiked ? api.deleteLike(card._id) : api.addLike(card._id, true))
+        .then((newCard) => {
         setCards((state) =>
-          state.map((c) => (c._id === newCard._id ? newCard : c))
-        )
-      })
-      .catch((err) => console.log(err))
+           state.map((c) => (c._id === newCard.data._id ? newCard.data : c))
+         )
+       })
+       .catch((err) => console.log(err))
     }
 
     function handleCardDelete(card) {
         setIsLoading(true);
         api
-            .deleteCard(card._id)
-            .then(() => {
-                setCards((state) => state.filter((item) => item._id !== card._id))
-                closeAllPopups()
-            }
-            )
-            .catch(err => console.log(`Ошибка: ${err}`))
-            .finally(() => setIsLoading(false))
-    }
+        .deleteCard(card._id)
+        .then(() => {
+            setCards((state) => state.filter((item) => item._id !== card._id))
+            closeAllPopups()
+        }
+        )
+        .catch(err => console.log(`Ошибка: ${err}`))
+        .finally(() => setIsLoading(false))
+}
 
     function handleLoginSubmit(email, password) {
         auth
             .login(email, password)
             .then((res) => {
                 if(res.token) {
-                    setEmail(res.email);
-                    setIsLoggedIn(true);
                     localStorage.setItem("jwt", res.token);
+                    setIsLoggedIn(true);
+                    setEmail(email);
                     history.push("/");
                 }
             })
@@ -155,7 +155,6 @@ function App() {
     function handleSignOut() {
         localStorage.removeItem("jwt");
         setIsLoggedIn(false);
-        setEmail("");
         setIsMobileMenuOpen(false);
         history.push("/sign-in");
         setIsMobileMenuOpen(false);
@@ -170,10 +169,8 @@ function App() {
         auth
             .register(email, password)
             .then((res) => {
-                if(res) {
                     setInfoToolTipPopupOpen(true);
                     history.push("/sign-in");
-                }
             })
             .catch((err) => {
                 console.log(err);
@@ -188,32 +185,30 @@ function App() {
           Promise.all([api.getAboutUserInfo(), api.getInitialCards()])
             .then(([profileInfo, cards]) => {
               setCurrentUser(profileInfo)
-              setCards(cards.reverse())
+              setCards(cards.data.reverse())
             })
             .catch((error) => console.log(`Ошибка: ${error}`))
       }, [isLoggedIn]);
 
       React.useEffect(() => {
-        tokenCheck();
-      });
-    function tokenCheck() {
-            const jwt = localStorage.getItem("jwt");
-            if(jwt) {
-                auth
-                .checkToken(jwt)
-                .then((res) => {
-                        setIsLoggedIn(true);
-                        setEmail(res.email);
-                        history.push("/");
-                })
-                .catch((err) => {
-                    if(err.status === 401) {
-                        console.log("401 — Токен не передан или передан не в том формате")
-                    }
-                    console.log("401 — Переданный токен некорректен")
-                })
-            }
-    }
+        const jwt = localStorage.getItem("jwt")
+    
+        if (jwt) {
+          auth
+            .checkToken(jwt)
+            .then((res) => {
+              setIsLoggedIn(true)
+              setEmail(res.email)
+              history.push("/")
+            })
+            .catch((err) => {
+              if (err.status === 401) {
+                console.log("401 — Токен не передан или передан не в том формате")
+              }
+              console.log("401 — Переданный токен некорректен")
+            })
+        }
+      }, [history])
 
     return (
         <CurrentUserContext.Provider value={currentUser}>

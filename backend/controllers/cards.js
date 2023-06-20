@@ -6,7 +6,7 @@ const Forbidden = require('../errors/Forbidden');
 module.exports.getInitialCards = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
-    .then((cards) => res.send(cards))
+    .then((cards) => res.send({ data: cards }))
     .catch(next);
 };
 
@@ -59,7 +59,6 @@ module.exports.addLike = (req, res, next) => {
     { $addToSet: { likes: userId } },
     { new: true },
   )
-    .populate(['likes', 'owner'])
     .then((card) => {
       if (card) {
         return res.status(200).send({ data: card });
@@ -84,7 +83,6 @@ module.exports.removeLike = (req, res, next) => {
     { $pull: { likes: userId } },
     { new: true },
   )
-    .populate(['likes', 'owner'])
     .then((card) => {
       if (card) {
         return res.status(200).send({ data: card });

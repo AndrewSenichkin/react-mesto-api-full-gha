@@ -38,7 +38,7 @@ function AddPlacePopup({ onClose, onAddPlace, onLoading, isOpen, onCloseOverlay 
                         placeholder="Название"
                         minLength="2"
                         maxLength="30"
-                        value={values.name}
+                        value={values.name || ''}
                         onChange={handleChange}
                         required
                     />
@@ -49,7 +49,7 @@ function AddPlacePopup({ onClose, onAddPlace, onLoading, isOpen, onCloseOverlay 
                         id="inputCardUrl"
                         name="link"
                         type="url"
-                        value={values.link}
+                        value={values.link || ''}
                         onChange={handleChange}
                         placeholder="Ссылка на картинку"
                         required

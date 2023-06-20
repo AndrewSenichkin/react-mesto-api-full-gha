@@ -1,5 +1,5 @@
 const BASE_URL = "https://api.kniws.nomoredomains.rocks";
-
+//const BASE_URL = "http://localhost:3000";
 function checkResponse(res) {
     if (res.ok) {
         return res.json();
@@ -44,6 +44,7 @@ export const checkToken = (jwt) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: "GET",
         headers: {
+            "Accept":"application/json",
             "Content-Type": "application/json",
             Authorization: `Bearer ${jwt}`,
         },

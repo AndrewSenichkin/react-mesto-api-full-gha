@@ -8,17 +8,17 @@ class Api {
   // Формирую запрос на сервер, если прошел не удачно, возвращаем ошибку!
   _handleSendingRequest(res) {
     if (res.ok) {
-      return Promise.resolve(res.json())
+      return Promise.resolve(res.json());
     }
-
     // Если ошибка пришла, отклоняем промис
-    return Promise.reject(`Ошибка: ${res.status}`)
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   // Метод загрузки информации о пользователе с сервера
-  async getAboutUserInfo() {
+  async getAboutUserInfo(forms) {
     const response = await fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers:this._headers,
+      body: JSON.stringify(forms)
     })
     return this._handleSendingRequest(response)
   }
@@ -35,7 +35,7 @@ class Api {
   async editProfileUserInfo(data) {
     const response = await fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers:this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -48,7 +48,7 @@ class Api {
   async addNewCard(data) {
     const response = await fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers:this._headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -59,13 +59,13 @@ class Api {
   }
 
   // Метод постановки лайка карточки
-  async addLike(cardId) {
-    const response = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: this._headers,
-    })
-    return this._handleSendingRequest(response)
-  }
+   async addLike(cardId) {
+     const response = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+       method: "PUT",
+       headers: this._headers,
+     })
+     return this._handleSendingRequest(response)
+   }
 
   // Метод постановки и снятия лайка с карточки
   async deleteLike(cardId) {
@@ -100,6 +100,7 @@ class Api {
 
 const api = new Api({
    baseUrl: "https://api.kniws.nomoredomains.rocks",
+   //baseUrl: "http://localhost:3000",
    headers: {
     "Content-Type": "application/json",
     authorization: `Bearer ${localStorage.getItem("jwt")}`,
